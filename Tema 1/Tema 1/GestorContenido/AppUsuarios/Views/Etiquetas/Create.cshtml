@@ -1,0 +1,62 @@
+﻿@model AppUsuarios.Models.Etiquetas
+
+@{
+    // Establece el título de la vista
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Etiqueta</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <!-- Formulario para crear una nueva etiqueta -->
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Campo para el nombre de la etiqueta -->
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <!-- Campo para el estado de la etiqueta -->
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+
+                <select asp-for="Estado" class="form-control">
+                    <option selected="selected" value="A">Activo</option>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <option value="I">Inactivo</option>
+                        }
+                    }
+                </select>
+
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+
+            <!-- Botón para enviar el formulario -->
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Enlace para regresar a la lista de etiquetas -->
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<!-- Sección de scripts para validaciones -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
